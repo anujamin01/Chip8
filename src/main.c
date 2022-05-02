@@ -12,6 +12,6 @@ int main(int argc, char** argv){
     640, 320, SDL_WINDOW_SHOWN
   );
 
-  printf("hello world");
+  printf("hello world, again");
   return 0;
 }
