@@ -29,5 +29,5 @@ int main(int argc, char** argv){
   }
 out: // destroy window
   SDL_DestroyWindow(window);
-  return 0;
+  return -1;
 }
