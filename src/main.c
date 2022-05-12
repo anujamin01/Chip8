@@ -1,14 +1,17 @@
 #include <stdio.h>
 #include "SDL2/SDL.h"
+#include "chip8.h"
 
 int main(int argc, char** argv){
 
   SDL_Init(SDL_INIT_EVERYTHING);
   SDL_Window* window = SDL_CreateWindow(
-    "Chip8 Window", 
+    EMULATOR_WINDOW_TITLE, 
     SDL_WINDOWPOS_UNDEFINED,
     SDL_WINDOWPOS_UNDEFINED,
-    640, 320, SDL_WINDOW_SHOWN
+    CHIP_8_WIDTH * WINDOW_RESIZER,
+    CHIP_8_HEIGHT * WINDOW_RESIZER,
+    SDL_WINDOW_SHOWN
   );
 
   SDL_Renderer* renderer = SDL_CreateRenderer(window,-1, SDL_TEXTUREACCESS_TARGET);
