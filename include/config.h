@@ -6,5 +6,5 @@
 #define CHIP_8_WIDTH 64
 #define CHIP_8_HEIGHT 32
 #define WINDOW_RESIZER 10 
-
+#define CHIP8_TOTAL_DATA_REGISTERS 16
 #endif
