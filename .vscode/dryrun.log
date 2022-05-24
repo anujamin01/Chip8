@@ -1,6 +1,6 @@
 make.exe --dry-run --keep-going --print-directory
 make: Entering directory 'c:/Users/anuja/Desktop/chip8'
-gcc -g -I ./include ./src/chip8keyboard.c -c -o ./build/chip8keyboard.o
-gcc -g -I ./include ./src/main.c ./build/chip8memory.o ./build/chip8stack.o ./build/chip8keyboard.o -L ./lib -lmingw32 -lSDL2main -lSDL2 -o ./bin/main
+gcc -g -I ./include ./src/chip8.c -c -o ./build/chip8.o
+gcc -g -I ./include ./src/main.c ./build/chip8memory.o ./build/chip8stack.o ./build/chip8keyboard.o ./build/chip8.o -L ./lib -lmingw32 -lSDL2main -lSDL2 -o ./bin/main
 make: Leaving directory 'c:/Users/anuja/Desktop/chip8'
  
