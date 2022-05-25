@@ -2,7 +2,7 @@
 #include "SDL2/SDL.h"
 #include "chip8.h"
 #include "chip8keyboard.h"
-
+#include "Windows.h"
 // mapping desktop keys to virtual keys
 const char keyboard_map[CHIP8_TOTAL_KEYS] = {
   SDLK_0,SDLK_1,SDLK_2,SDLK_3, 
@@ -15,7 +15,7 @@ int main(int argc, char** argv){
 
   struct chip8 chip8;
   chip8_init(&chip8);
-
+  chip8.registers.delay_timer = 255;
   chip8_screen_draw_sprite(&chip8.screen,62,30,&chip8.memory.memory[0x00],5);
   //chip8_screen_set(&chip8.screen,10,1);
   //chip8_keyboard_down(&chip8.keyboard, 0xf);
@@ -97,6 +97,12 @@ int main(int argc, char** argv){
     }
 
     SDL_RenderPresent(renderer);
+
+    if(chip8.registers.delay_timer > 0){
+      Sleep(100);
+      chip8.registers.delay_timer-=1;
+      printf("Delay\n");
+    }
   }
 out: // destroy window
   SDL_DestroyWindow(window);
