@@ -15,6 +15,9 @@ int main(int argc, char** argv){
 
   struct chip8 chip8;
   chip8_init(&chip8);
+
+  chip8_screen_draw_sprite(&chip8.screen,62,30,&chip8.memory.memory[0x00],5);
+  //chip8_screen_set(&chip8.screen,10,1);
   //chip8_keyboard_down(&chip8.keyboard, 0xf);
   //chip8_keyboard_up(&chip8.keyboard, 0xf);
   //bool is_down = chip8_keyboard_is_down(&chip8.keyboard, 0xf);
@@ -74,11 +77,25 @@ int main(int argc, char** argv){
         break;
       };
     }
+
     SDL_SetRenderDrawColor(renderer,0,0,0,0); // rendering black for the display
     SDL_RenderClear(renderer); // paint over screen with black
     SDL_SetRenderDrawColor(renderer,255, 255, 255, 0); // draw white rectangle
-    SDL_Rect r; r.x = 0; r.y =0; r.w = 40; r.h = 40;
-    SDL_RenderFillRect(renderer, &r);
+
+    // loop through each pixels
+    for (int x = 0; x < CHIP_8_WIDTH; x++){
+      for (int y = 0; y < CHIP_8_HEIGHT; y++){
+        if(chip8_screen_is_set(&chip8.screen,x,y)){ // if pixel is set draw it 
+          SDL_Rect r;
+          r.x = x * WINDOW_RESIZER;
+          r.y = y * WINDOW_RESIZER;
+          r.w = WINDOW_RESIZER; 
+          r.h = WINDOW_RESIZER;
+          SDL_RenderFillRect(renderer, &r);
+        }
+      }
+    }
+
     SDL_RenderPresent(renderer);
   }
 out: // destroy window
