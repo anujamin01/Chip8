@@ -128,7 +128,7 @@ int main(int argc, char** argv){
     if(chip8.registers.delay_timer > 0){
       Sleep(100);
       chip8.registers.delay_timer-=1;
-      printf("Delay\n");
+      //printf("Delay\n");
     }
 
     if(chip8.registers.sound_timer > 0){
