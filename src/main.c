@@ -126,13 +126,13 @@ int main(int argc, char** argv){
     SDL_RenderPresent(renderer);
 
     if(chip8.registers.delay_timer > 0){
-      Sleep(100);
+      Sleep(1);
       chip8.registers.delay_timer-=1;
       //printf("Delay\n");
     }
 
     if(chip8.registers.sound_timer > 0){
-      Beep(15000,100 * chip8.registers.sound_timer);
+      Beep(15000, 100 * chip8.registers.sound_timer);
       chip8.registers.sound_timer=0;
     }
     unsigned short opcode = chip8_memory_get_short(&chip8.memory, chip8.registers.PC); // read short/opcode
