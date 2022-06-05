@@ -12,12 +12,38 @@ const char keyboard_map[CHIP8_TOTAL_KEYS] = {
 };
 
 int main(int argc, char** argv){
+  if (argc < 2){
+    printf("You must provide file to load\n");
+    return -1;
+  }
+  const char* filename = argv[1];
+  printf("The filename to load is: %s\n", filename);
+
+  FILE* f = fopen(filename, "rb");
+  if (!f){
+    printf("Failed to open file\n");
+    return -1;
+  }
+
+  fseek(f, 0, SEEK_END);
+  long size = ftell(f);
+  fseek(f,0,SEEK_SET);
+
+  char buf[size];
+  int res = fread(buf,size,1,f);
+
+  if (res != 1){
+    printf("Failed to read from file");
+    return -1;
+  }
 
   struct chip8 chip8;
   chip8_init(&chip8);
+  chip8_load(&chip8, buf, size);
+  chip8_keyboard_set_map(&chip8.keyboard, keyboard_map);
   //chip8.registers.delay_timer = 255;
-  chip8.registers.sound_timer = 30;
-  chip8_screen_draw_sprite(&chip8.screen,62,30,&chip8.memory.memory[0x00],5);
+  //chip8.registers.sound_timer = 30;
+  //chip8_screen_draw_sprite(&chip8.screen,62,30,&chip8.memory.memory[0x00],5);
   //chip8_screen_set(&chip8.screen,10,1);
   //chip8_keyboard_down(&chip8.keyboard, 0xf);
   //chip8_keyboard_up(&chip8.keyboard, 0xf);
@@ -56,7 +82,7 @@ int main(int argc, char** argv){
         case SDL_KEYDOWN:
         {
           char key = event.key.keysym.sym;
-          int vkey = chip8_keyboard_map(keyboard_map,key);
+          int vkey = chip8_keyboard_map(&chip8.keyboard,key);
           //printf("key is down %x\n", vkey);
 
           if (vkey != -1){
@@ -67,7 +93,7 @@ int main(int argc, char** argv){
         case SDL_KEYUP:
         {
           char key = event.key.keysym.sym;
-          int vkey = chip8_keyboard_map(keyboard_map,key);
+          int vkey = chip8_keyboard_map(&chip8.keyboard,key);
           //printf("key is down %x\n", vkey);
 
           if (vkey != -1){
@@ -109,6 +135,9 @@ int main(int argc, char** argv){
       Beep(15000,100 * chip8.registers.sound_timer);
       chip8.registers.sound_timer=0;
     }
+    unsigned short opcode = chip8_memory_get_short(&chip8.memory, chip8.registers.PC); // read short/opcode
+    chip8.registers.PC +=2; // increment PC due to instruction
+    chip8_exec(&chip8,opcode); // execute instruction
   }
 out: // destroy window
   SDL_DestroyWindow(window);

@@ -10,5 +10,5 @@ struct chip8_memory
 
 void chip8_memory_set(struct chip8_memory* memory, int index, unsigned char val); // declare memory set
 unsigned char chip8_memory_get(struct chip8_memory* memory, int index); // method to get value
-
+unsigned short chip8_memory_get_short(struct chip8_memory* memory, int index);
 #endif
